@@ -1,11 +1,303 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>개발자 샘플 페이지</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #0f172a;
+      --panel-2: #111827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: #7c3aed; /* violet-600 */
+      --brand-2: #22d3ee; /* cyan-400 */
+      --accent: #34d399; /* emerald-400 */
+      --warn: #f59e0b; /* amber-500 */
+      --radius: 20px;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #f8fafc; --panel: #ffffff; --panel-2: #f1f5f9; --text: #0f172a; --muted: #475569; }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: radial-gradient(1200px 800px at 10% -10%, rgba(124,58,237,.18), transparent 60%),
+                           radial-gradient(900px 600px at 90% -20%, rgba(34,211,238,.14), transparent 50%), var(--bg);
+           color: var(--text); font-family: var(--sans); line-height: 1.6; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(160%) blur(10px);
+      background: linear-gradient(180deg, rgba(15,23,42,.8), rgba(15,23,42,.6));
+      border-bottom: 1px solid rgba(148,163,184,.15);
+    }
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+    .row { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; padding: 14px 0; }
+    .logo { width: 28px; height: 28px; border-radius: 10px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); }
+    .brand h1 { font-size: 18px; margin: 0; letter-spacing: 0.2px; }
+
+    nav a { color: var(--text); text-decoration: none; padding: 10px 12px; border-radius: 12px; opacity: .9; font-weight: 600; }
+    nav a:hover, nav a:focus { outline: none; background: rgba(124,58,237,.12); }
+
+    /* Hero */
+    .hero { padding: 72px 0 36px; }
+    .hero h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.15; margin: 0 0 14px; font-weight: 800; }
+    .hero p { font-size: clamp(14px, 2vw, 18px); color: var(--muted); margin: 0; }
+    .hero .badge { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; padding: 8px 12px; border-radius: 999px; background: rgba(34,211,238,.12); border: 1px solid rgba(34,211,238,.35); font-weight: 600; }
+
+    /* Section */
+    section { padding: 28px 0 10px; }
+    .section-title { font-size: 22px; font-weight: 800; margin: 0 0 14px; letter-spacing: .2px; }
+    .section-desc { margin-top: -6px; color: var(--muted); }
+
+    /* Cards Grid */
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
+    @media (max-width: 980px) { .col-4, .col-6 { grid-column: span 12; } }
+
+    .card { background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid rgba(148,163,184,.15);
+            border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .card h3 { margin: 0 0 4px; font-size: 18px; }
+    .card small { color: var(--muted); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px dashed rgba(148,163,184,.35); color: var(--muted); }
+
+    /* Code block */
+    pre { margin: 12px 0 0; padding: 14px 14px 14px 18px; background: #0a0f1d; color: #e5e7eb; border-radius: 14px; border: 1px solid rgba(148,163,184,.2); overflow:auto; }
+    code { font-family: var(--mono); font-size: 13.5px; }
+
+    /* Details */
+    details { margin-top: 12px; border: 1px solid rgba(148,163,184,.2); border-radius: 12px; overflow: hidden; }
+    details summary { cursor: pointer; list-style: none; padding: 12px 14px; background: rgba(124,58,237,.12); font-weight: 700; }
+    details[open] summary { border-bottom: 1px solid rgba(148,163,184,.2); }
+    details .content { padding: 12px 14px; background: rgba(15,23,42,.5); }
+
+    /* Aside */
+    .aside { position: sticky; top: 78px; }
+    .toc { background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid rgba(148,163,184,.15); border-radius: var(--radius); padding: 14px; }
+    .toc h4 { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
+    .toc a { display: block; padding: 6px 8px; border-radius: 8px; text-decoration: none; color: var(--text); opacity: .9; }
+    .toc a:hover { background: rgba(124,58,237,.12); }
+
+    /* Footer */
+    footer { margin: 48px 0 60px; color: var(--muted); text-align: center; }
+
+    /* Utilities */
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid rgba(148,163,184,.2); }
+    .muted { color: var(--muted); }
+    .sep { height: 1px; background: rgba(148,163,184,.15); margin: 20px 0; }
+  </style>
 </head>
 <body>
-    <h1>Hello World!!!</h1>
+  <header>
+    <div class="wrap">
+      <div class="row">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <h1>박예은 샘플 페이지</h1>
+        </div>
+        <nav aria-label="주요 섹션">
+          <a href="#overview">개요</a>
+          <a href="#java">Java</a>
+          <a href="#c">C</a>
+          <a href="#cpp">C++</a>
+          <a href="#flutter">Flutter</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero -->
+    <section class="hero" id="overview">
+      <h2>언어와 프레임워크를 한 눈에 ✨</h2>
+      <p>이 페이지는 <strong>HTML과 CSS만으로</strong> 구성된 깔끔한 개발자 샘플입니다. 아래 예제로 빠르게 시작해 보세요.</p>
+      <span class="badge" aria-label="구성 요약"><span>Java</span> • <span>C</span> • <span>C++</span> • <span>Flutter</span></span>
+    </section>
+
+    <div class="grid">
+      <!-- Table of Contents -->
+      <aside class="col-4 aside" aria-label="바로가기">
+        <div class="toc">
+          <h4>바로가기</h4>
+          <a href="#java">1. Java</a>
+          <a href="#c">2. C</a>
+          <a href="#cpp">3. C++</a>
+          <a href="#flutter">4. Flutter</a>
+        </div>
+      </aside>
+
+      <!-- Content Column -->
+      <div class="col-8 col-12">
+        <!-- Java -->
+        <section id="java" aria-labelledby="java-title">
+          <div class="card">
+            <h3 id="java-title">Java</h3>
+            <small>JVM 위에서 동작하는 범용 객체지향 언어</small>
+            <div class="tags" role="list">
+              <span class="tag" role="listitem">정적 타이핑</span>
+              <span class="tag" role="listitem">GC(가비지 컬렉션)</span>
+              <span class="tag" role="listitem">크로스 플랫폼</span>
+            </div>
+            <pre aria-label="Java 예제 코드"><code>public class Hello {
+  public static void main(String[] args) {
+    System.out.println("Hello, Java!");
+  }
+}
+</code></pre>
+            <details>
+              <summary>시작하기 (OpenJDK)</summary>
+              <div class="content">
+                <ol>
+                  <li>JDK 설치 (예: OpenJDK 17)</li>
+                  <li><code>Hello.java</code> 파일 생성 후 위 코드 저장</li>
+                  <li><code>javac Hello.java</code>로 컴파일</li>
+                  <li><code>java Hello</code>로 실행</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <div class="sep" aria-hidden="true"></div>
+
+        <!-- C -->
+        <section id="c" aria-labelledby="c-title">
+          <div class="card">
+            <h3 id="c-title">C</h3>
+            <small>저수준 제어와 높은 성능을 제공하는 시스템 프로그래밍 언어</small>
+            <div class="tags" role="list">
+              <span class="tag" role="listitem">컴파일 언어</span>
+              <span class="tag" role="listitem">포인터</span>
+              <span class="tag" role="listitem">임베디드/OS</span>
+            </div>
+            <pre aria-label="C 예제 코드"><code>#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf("Hello, C!\n");
+  return 0;
+}
+</code></pre>
+            <details>
+              <summary>시작하기 (GCC/Clang)</summary>
+              <div class="content">
+                <ol>
+                  <li>컴파일러 설치 (예: <code>gcc</code> 또는 <code>clang</code>)</li>
+                  <li><code>hello.c</code> 저장</li>
+                  <li><code>gcc hello.c -o hello</code>로 컴파일</li>
+                  <li><code>./hello</code> 실행</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <div class="sep" aria-hidden="true"></div>
+
+        <!-- C++ -->
+        <section id="cpp" aria-labelledby="cpp-title">
+          <div class="card">
+            <h3 id="cpp-title">C++</h3>
+            <small>C 기반의 범용 언어, OOP와 템플릿 메타프로그래밍 지원</small>
+            <div class="tags" role="list">
+              <span class="tag" role="listitem">표준 라이브러리(STL)</span>
+              <span class="tag" role="listitem">RAII</span>
+              <span class="tag" role="listitem">제네릭</span>
+            </div>
+            <pre aria-label="C++ 예제 코드"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int main() {
+  std::vector<std::string> msgs{"Hello", "C++"};
+  for (const auto& s : msgs) std::cout &lt;&lt; s &lt;&lt; " ";
+  std::cout &lt;&lt; std::endl;
+  return 0;
+}
+</code></pre>
+            <details>
+              <summary>시작하기 (g++/clang++)</summary>
+              <div class="content">
+                <ol>
+                  <li>컴파일러 설치</li>
+                  <li><code>hello.cpp</code> 저장</li>
+                  <li><code>g++ -std=c++17 hello.cpp -o hello</code></li>
+                  <li><code>./hello</code> 실행</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <div class="sep" aria-hidden="true"></div>
+
+        <!-- Flutter -->
+        <section id="flutter" aria-labelledby="flutter-title">
+          <div class="card">
+            <h3 id="flutter-title">Flutter</h3>
+            <small>Dart 기반의 크로스플랫폼 UI 프레임워크</small>
+            <div class="tags" role="list">
+              <span class="tag" role="listitem">iOS/Android/Web/데스크톱</span>
+              <span class="tag" role="listitem">Hot Reload</span>
+              <span class="tag" role="listitem">위젯 기반</span>
+            </div>
+            <pre aria-label="Flutter/Dart 예제 코드"><code>import 'package:flutter/material.dart';
+
+void main() =&gt; runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Hello, Flutter')),
+        body: const Center(child: Text('👋')),
+      ),
+    );
+  }
+}
+</code></pre>
+            <details>
+              <summary>시작하기 (Flutter SDK)</summary>
+              <div class="content">
+                <ol>
+                  <li>Flutter SDK 설치 및 <code>flutter doctor</code>로 환경 점검</li>
+                  <li><code>flutter create hello_app</code></li>
+                  <li><code>cd hello_app</code> → <code>flutter run</code></li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section aria-label="리소스" style="margin-top:18px">
+          <div class="card">
+            <h3>유용한 리소스</h3>
+            <ul class="muted">
+              <li>공식 문서: Java, C/C++, Flutter 각 공식 페이지 참고</li>
+              <li>빌드/실행 스크립트, 컨테이너화(Docker) 등은 프로젝트 성격에 맞게 추가</li>
+              <li>이 템플릿은 HTML/CSS만 사용하여 가볍게 배포할 수 있습니다.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <p class="pill">© 2025 Dev Sample · HTML + CSS만으로 구성된 예시 페이지</p>
+    </footer>
+  </main>
 </body>
 </html>
