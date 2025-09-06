@@ -1,13 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        body {
+            padding: 30px;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        .divider {
+            border-bottom: 1px solid rgb(218, 218, 218);
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header p {
+            font-size: 26px;
+        }
+
+        .jambotron {
+            background-color: rgb(244, 244, 244);
+            padding: 30px;
+            padding-top: 70px;
+            padding-right: 80px;
+            padding-bottom: 50px;
+            border-radius: 10px;
+            margin: 10px;
+
+        }
+
+        .jambotron h1 {
+            font-size: 50px;
+        }
+
+        .jambotron p {
+            font-size: 25px;
+            max-width: 900px;
+        }
+
+        .jambotron button {
+            border-style: none;
+            background-color: rgb(54, 108, 255);
+            color: white;
+            font-size: 19px;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 7px;
+        }
+
+        .two-containers {
+            display: flex;
+            gap: 20px;
+            margin: 10px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .two-containers>div {
+            flex: 1;
+        }
+
+        #background {
+            background-color: rgb(37, 37, 38);
+            color: white;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        #background button {
+            background-color: rgb(37, 37, 38);
+            color: white;
+            color: white;
+            font-size: 15px;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 7px;
+            border: 1px solid;
+        }
+
+        #borders {
+            background-color: rgb(244, 244, 244);
+            border-radius: 10px;
+            border: 1px solid rgb(224, 224, 224);
+            padding: 30px;
+        }
+
+        #borders button {
+            background-color: rgb(244, 244, 244);
+            color: rgb(108, 108, 108);
+            font-size: 15px;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 7px;
+            border: 1px solid;
+        }
+
+        #copyrights {
+            color: rgb(113, 113, 113);
+        }
+    </style>
 </head>
+
 <body>
     <header>
-        
+        <div class="header">
+            <p>
+                Jambotron example
+            </p>
+        </div>
+        <div class="divider"></div>
+        <div class="jambotron">
+            <h1>Custom Jambotron</h1>
+            <p>
+                Using a series of utilities, you can create this jumbotron, just like the one in previous versions of
+                Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.
+            </p>
+            <button>
+                Example button
+            </button>
+        </div>
+        <div class="two-containers">
+            <div id="background">
+                <h2>
+                    Change the background
+                </h2>
+                <p>
+                    Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look.
+                    Then, mix and match with additional component themes and more.
+                </p>
+                <button>
+                    Example button
+                </button>
+            </div>
+            <div id="borders">
+                <h2>
+                    Add borders
+                </h2>
+                <p>
+                    Or, keep it light and add a border for some added definition to the boundaries of your content. Be
+                    sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of
+                    both column's content for equal-height.
+                </p>
+                <button>
+                    Example button
+                </button>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <p id="copyrights">
+            © 2025
+        </p>
     </header>
 </body>
+
 </html>
